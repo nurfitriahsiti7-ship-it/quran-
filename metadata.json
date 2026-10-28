@@ -1,0 +1,6 @@
+{
+  "name": "eQuran",
+  "description": "eQuran - Al-Qur'an Digital dengan Palet Warna Adaptif, Terjemahan Indonesia, Tafsir Lengkap, Audio Murottal 6 Qari, & Auto-Scroll.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
