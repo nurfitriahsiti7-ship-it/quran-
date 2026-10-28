@@ -14,9 +14,9 @@ export default defineConfig(() => {
         includeAssets: ['favicon.png', 'apple-touch-icon.png', 'icon.svg'],
         manifest: {
           id: '/',
-          name: 'eQuran - Al-Qur\'an Digital',
-          short_name: 'eQuran',
-          description: 'Aplikasi Al-Qur\'an Digital dengan Palet Warna Adaptif, Terjemahan Indonesia, Tafsir Kemenag, dan Audio Murottal.',
+          name: 'Fit Qur\'an - Al-Qur\'an Digital',
+          short_name: 'Fit Qur\'an',
+          description: 'Aplikasi Al-Qur\'an Digital Fit Qur\'an dengan Palet Warna Adaptif, Terjemahan Indonesia, Tafsir Kemenag, dan Audio Murottal.',
           theme_color: '#F3C0BC',
           background_color: '#FDFBF7',
           display: 'standalone',

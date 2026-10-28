@@ -86,7 +86,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
                 Analisis Color Palette & Desain Adaptif
               </h2>
               <p className="text-xs text-text-muted">
-                Dihasilkan secara otomatis dari gambar referensi medali kaligrafi eQuran
+                Dihasilkan secara otomatis dari gambar referensi medali kaligrafi {APP_CONFIG.appName}
               </p>
             </div>
           </div>

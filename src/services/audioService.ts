@@ -22,6 +22,8 @@ class AudioPlayerManager {
   private currentTime = 0;
   private duration = 0;
   private volume = 1;
+  private playbackRate = 1.0;
+  private isLooping = false;
   private listeners: Set<AudioListener> = new Set();
   private onTrackEndedCallback?: () => void;
 
@@ -66,6 +68,12 @@ class AudioPlayerManager {
     });
 
     this.audio.addEventListener('ended', () => {
+      if (this.isLooping && this.audio) {
+        this.audio.currentTime = 0;
+        this.audio.play().catch(console.warn);
+        return;
+      }
+
       this.isPlaying = false;
       this.currentTime = 0;
       this.notify();
@@ -101,6 +109,8 @@ class AudioPlayerManager {
       currentTime: this.currentTime,
       duration: this.duration,
       volume: this.volume,
+      playbackRate: this.playbackRate,
+      isLooping: this.isLooping,
     };
   }
 
@@ -114,6 +124,7 @@ class AudioPlayerManager {
       this.currentTrack.url === track.url &&
       !this.isPlaying
     ) {
+      this.audio.playbackRate = this.playbackRate;
       this.audio.play().catch(console.warn);
       return;
     }
@@ -121,6 +132,7 @@ class AudioPlayerManager {
     this.currentTrack = track;
     this.audio.src = track.url;
     this.audio.volume = this.volume;
+    this.audio.playbackRate = this.playbackRate;
     this.audio.currentTime = 0;
     this.isLoading = true;
     this.notify();
@@ -141,6 +153,7 @@ class AudioPlayerManager {
 
   public resume() {
     if (this.audio && !this.isPlaying && this.currentTrack) {
+      this.audio.playbackRate = this.playbackRate;
       this.audio.play().catch(console.warn);
     }
   }
@@ -167,6 +180,19 @@ class AudioPlayerManager {
       this.audio.volume = this.volume;
       this.notify();
     }
+  }
+
+  public setPlaybackRate(rate: number) {
+    this.playbackRate = rate;
+    if (this.audio) {
+      this.audio.playbackRate = rate;
+      this.notify();
+    }
+  }
+
+  public toggleLoop() {
+    this.isLooping = !this.isLooping;
+    this.notify();
   }
 
   public stop() {

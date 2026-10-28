@@ -9,6 +9,8 @@ import {
   ChevronUp,
   ChevronDown,
   Loader2,
+  Repeat,
+  Gauge,
 } from 'lucide-react';
 import { audioPlayer, AudioTrackInfo } from '../../services/audioService';
 import { QARI_LIST } from '../../types/quran';
@@ -35,7 +37,7 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({ onJumpToAyah, on
     return null;
   }
 
-  const { currentTrack, isPlaying, isLoading, currentTime, duration, volume } = playerState;
+  const { currentTrack, isPlaying, isLoading, currentTime, duration, volume, playbackRate, isLooping } = playerState;
   const currentQari = audioPlayer.getQari(currentTrack.qariId);
 
   const formatTime = (seconds: number) => {
@@ -61,11 +63,16 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({ onJumpToAyah, on
     }
   };
 
+  const cycleSpeed = () => {
+    const rates = [1.0, 1.25, 1.5, 0.75];
+    const nextIdx = (rates.indexOf(playbackRate) + 1) % rates.length;
+    audioPlayer.setPlaybackRate(rates[nextIdx]);
+  };
+
   const handleSelectQari = (qariId: string) => {
     setShowQariMenu(false);
     if (onQariChange) onQariChange(qariId);
 
-    // If surah audio, reload with new qari
     if (currentTrack) {
       const updatedTrack: AudioTrackInfo = {
         ...currentTrack,
@@ -96,7 +103,7 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({ onJumpToAyah, on
               className="text-xs font-bold text-text truncate hover:text-primary-deep cursor-pointer"
             >
               {currentTrack.surahName}{' '}
-              {currentTrack.ayahNumber ? `• Ayat ${currentTrack.ayahNumber}` : '• Lengkap'}
+              {currentTrack.ayahNumber ? `• Ayat ${currentTrack.ayahNumber}` : '• Surat Lengkap'}
             </h4>
             <div className="relative">
               <button
@@ -109,7 +116,7 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({ onJumpToAyah, on
 
               {/* Qari selector popup */}
               {showQariMenu && (
-                <div className="absolute bottom-full left-0 mb-1 w-60 rounded-xl bg-surface border border-border shadow-xl p-1.5 z-50 animate-in fade-in zoom-in-95">
+                <div className="absolute bottom-full left-0 mb-1 w-64 rounded-xl bg-surface border border-border shadow-xl p-1.5 z-50 animate-in fade-in zoom-in-95">
                   <p className="text-[10px] font-bold text-text-muted px-2 py-1 uppercase tracking-wider">
                     Pilih Qari Murottal
                   </p>
@@ -162,13 +169,40 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({ onJumpToAyah, on
 
       {/* Controls */}
       <div className="flex items-center justify-between mt-2 pt-1 border-t border-border/60">
-        <button
-          onClick={toggleMute}
-          className="p-1.5 rounded-lg text-text-muted hover:text-text hover:bg-primary-soft transition cursor-pointer"
-          aria-label={isMuted ? 'Unmute' : 'Mute'}
-        >
-          {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
-        </button>
+        <div className="flex items-center gap-1">
+          {/* Mute/Volume */}
+          <button
+            onClick={toggleMute}
+            className="p-1.5 rounded-lg text-text-muted hover:text-text hover:bg-primary-soft transition cursor-pointer"
+            aria-label={isMuted ? 'Unmute' : 'Mute'}
+            title={isMuted ? 'Buka Suara' : 'Bisukan Suara'}
+          >
+            {isMuted ? <VolumeX className="w-4 h-4 text-red-500" /> : <Volume2 className="w-4 h-4" />}
+          </button>
+
+          {/* Loop / Repeat Murojaah button */}
+          <button
+            onClick={() => audioPlayer.toggleLoop()}
+            className={`p-1.5 rounded-lg transition cursor-pointer ${
+              isLooping
+                ? 'bg-primary-soft text-primary-deep font-bold ring-1 ring-primary-deep'
+                : 'text-text-muted hover:text-text hover:bg-primary-soft'
+            }`}
+            title={isLooping ? 'Ulangi Aktif (Muroja\'ah)' : 'Aktifkan Pengulangan (Muroja\'ah)'}
+            aria-label="Ulangi audio"
+          >
+            <Repeat className="w-4 h-4" />
+          </button>
+
+          {/* Speed cycle button */}
+          <button
+            onClick={cycleSpeed}
+            className="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold text-text-muted hover:text-text hover:bg-primary-soft transition cursor-pointer"
+            title="Ubah kecepatan audio"
+          >
+            {playbackRate}x
+          </button>
+        </div>
 
         {/* Play/Pause Button */}
         <button
@@ -187,7 +221,7 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({ onJumpToAyah, on
         </button>
 
         <span className="text-[10px] font-medium text-text-muted px-2 py-0.5 rounded-md bg-primary-soft/60">
-          {currentTrack.mode === 'ayah' ? 'Per Ayat' : 'Surat Penuh'}
+          {currentTrack.mode === 'ayah' ? 'Per Ayat' : 'Surat'}
         </span>
       </div>
     </div>

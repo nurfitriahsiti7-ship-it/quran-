@@ -9,6 +9,7 @@ import {
   Compass,
   Play,
   HeartHandshake,
+  Flame,
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { APP_CONFIG } from '../config/appConfig';
@@ -16,6 +17,7 @@ import {
   getLastRead,
   getDailyProgress,
   getUserSettings,
+  getTilawahStreak,
 } from '../storage/storageService';
 import { ReadingPosition, DailyTargetProgress } from '../types/quran';
 
@@ -32,11 +34,13 @@ export const HomePage: React.FC<HomePageProps> = ({
 }) => {
   const [lastRead, setLastReadState] = useState<ReadingPosition | null>(null);
   const [dailyProgress, setDailyProgressState] = useState<DailyTargetProgress>(getDailyProgress());
+  const [streak, setStreak] = useState(getTilawahStreak());
   const [settings] = useState(getUserSettings());
 
   useEffect(() => {
     setLastReadState(getLastRead());
     setDailyProgressState(getDailyProgress());
+    setStreak(getTilawahStreak());
   }, []);
 
   const progressPercentage = Math.min(
@@ -184,9 +188,18 @@ export const HomePage: React.FC<HomePageProps> = ({
               <Trophy className="w-4 h-4 text-accent" />
               <span>Target Tilawah Hari Ini</span>
             </div>
-            <span className="text-xs font-extrabold text-text">
-              {dailyProgress.readAyahsCount} / {settings.dailyAyahTarget} Ayat
-            </span>
+            <div className="flex items-center gap-2">
+              <div
+                className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-700 text-[11px] font-bold"
+                title={`${streak.streak} hari berturut-turut membaca Al-Qur'an`}
+              >
+                <Flame className="w-3.5 h-3.5 text-amber-500 fill-amber-500 animate-pulse" />
+                <span>{streak.streak > 0 ? `${streak.streak} Hari Streak` : 'Streak Baru'}</span>
+              </div>
+              <span className="text-xs font-extrabold text-text">
+                {dailyProgress.readAyahsCount} / {settings.dailyAyahTarget} Ayat
+              </span>
+            </div>
           </div>
 
           <div className="space-y-2">

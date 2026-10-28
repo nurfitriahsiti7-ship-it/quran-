@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Download, Smartphone, X } from 'lucide-react';
 import { usePWAInstall } from '../../hooks/usePWAInstall';
 
+import { APP_CONFIG } from '../../config/appConfig';
+
 export const PWAInstallButton: React.FC = () => {
   const { isInstallable, isInstalled, isIOS, install } = usePWAInstall();
   const [showIOSGuide, setShowIOSGuide] = useState(false);
@@ -17,8 +19,8 @@ export const PWAInstallButton: React.FC = () => {
       <button
         onClick={install}
         className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-full bg-primary-deep text-white shadow-sm hover:brightness-105 active:scale-95 transition-all cursor-pointer"
-        title="Pasang aplikasi eQuran di perangkat Anda"
-        aria-label="Install Aplikasi eQuran"
+        title={`Pasang aplikasi ${APP_CONFIG.appName} di perangkat Anda`}
+        aria-label={`Install Aplikasi ${APP_CONFIG.appName}`}
       >
         <Download className="w-3.5 h-3.5" />
         <span>Install App</span>
@@ -33,8 +35,8 @@ export const PWAInstallButton: React.FC = () => {
         <button
           onClick={() => setShowIOSGuide(true)}
           className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-full border border-border bg-surface text-text hover:bg-primary-soft transition-all cursor-pointer"
-          title="Petunjuk pasang eQuran di iOS"
-          aria-label="Pasang eQuran di iPhone / iPad"
+          title={`Petunjuk pasang ${APP_CONFIG.appName} di iOS`}
+          aria-label={`Pasang ${APP_CONFIG.appName} di iPhone / iPad`}
         >
           <Smartphone className="w-3.5 h-3.5 text-accent" />
           <span>Install iOS</span>
@@ -54,11 +56,11 @@ export const PWAInstallButton: React.FC = () => {
               <div className="flex items-center gap-3 mb-4">
                 <img
                   src="/assets/aistudio/Medali_Bundar_Kaligrafi_Al-Qur_an_425f345a.png"
-                  alt="eQuran Medallion"
+                  alt={`${APP_CONFIG.appName} Medallion`}
                   className="w-12 h-12 rounded-full shadow-sm"
                 />
                 <div>
-                  <h3 className="font-bold text-text text-base">Pasang eQuran di iOS</h3>
+                  <h3 className="font-bold text-text text-base">Pasang {APP_CONFIG.appName} di iOS</h3>
                   <p className="text-xs text-text-muted">Gunakan offline kapan pun</p>
                 </div>
               </div>

@@ -1,12 +1,12 @@
 /**
- * eQuran Application Configuration
- * Peserta dapat mengubah konfigurasi dasar di file ini:
+ * Fit Qur'an Application Configuration
+ * Konfigurasi dasar aplikasi:
  * - appName: Nama aplikasi
  * - primaryColor: Warna fallback jika tidak ada gambar referensi
- * - colorReference: Path ke gambar referensi (atau null)
+ * - colorReference: Path ke gambar referensi
  */
 export const APP_CONFIG = {
-  appName: "eQuran",
+  appName: "Fit Qur'an",
   // Warna fallback jika tidak ada gambar referensi
   primaryColor: "#F3C0BC",
   // Masukkan gambar referensi melalui file upload yang tersedia

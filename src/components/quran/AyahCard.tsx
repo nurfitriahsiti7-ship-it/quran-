@@ -11,6 +11,7 @@ import {
   CheckCircle2,
 } from 'lucide-react';
 import { AyahItem, UserSettings } from '../../types/quran';
+import { APP_CONFIG } from '../../config/appConfig';
 
 interface AyahCardProps {
   surahNumber: number;
@@ -59,7 +60,7 @@ export const AyahCard: React.FC<AyahCardProps> = ({
   const handleShare = async () => {
     const shareData = {
       title: `QS. ${surahName}: ${ayah.nomorAyat}`,
-      text: `${ayah.teksArab}\n\n"${ayah.teksIndonesia}"\n(QS. ${surahName}: ${ayah.nomorAyat}) - eQuran`,
+      text: `${ayah.teksArab}\n\n"${ayah.teksIndonesia}"\n(QS. ${surahName}: ${ayah.nomorAyat}) - ${APP_CONFIG.appName}`,
       url: window.location.href,
     };
     if (navigator.share) {

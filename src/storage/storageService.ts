@@ -151,9 +151,46 @@ export function markAyahRead(surahNumber: number, ayahNumber: number): DailyTarg
     progress.readKeys.push(key);
     progress.readAyahsCount = progress.readKeys.length;
     safeSave(STORAGE_KEYS.DAILY_TARGET, progress);
+    recordTilawahActivity();
   }
 
   return progress;
+}
+
+// ----------------- Habit Streak (Fit Qur'an) -----------------
+export interface TilawahStreakInfo {
+  streak: number;
+  lastDate: string;
+}
+
+export function getTilawahStreak(): TilawahStreakInfo {
+  return safeParse<TilawahStreakInfo>('equran_streak_v1', {
+    streak: 0,
+    lastDate: '',
+  });
+}
+
+function recordTilawahActivity(): void {
+  const today = getTodayString();
+  const current = getTilawahStreak();
+
+  if (current.lastDate === today) {
+    return;
+  }
+
+  const yesterdayDate = new Date();
+  yesterdayDate.setDate(yesterdayDate.getDate() - 1);
+  const yesterday = `${yesterdayDate.getFullYear()}-${String(yesterdayDate.getMonth() + 1).padStart(2, '0')}-${String(yesterdayDate.getDate()).padStart(2, '0')}`;
+
+  let newStreak = 1;
+  if (current.lastDate === yesterday) {
+    newStreak = (current.streak || 0) + 1;
+  }
+
+  safeSave('equran_streak_v1', {
+    streak: newStreak,
+    lastDate: today,
+  });
 }
 
 // ----------------- Settings -----------------
