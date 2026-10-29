@@ -64,66 +64,93 @@ export const SurahListPage: React.FC<SurahListPageProps> = ({
 
   return (
     <div className="space-y-6 pb-12 animate-in fade-in duration-300">
-      {/* Top Header & Search */}
-      <div className="bg-surface border border-border rounded-3xl p-6 shadow-xs space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      {/* Top Header & Search Toolbar */}
+      <div className="bg-surface border border-border rounded-3xl p-5 sm:p-7 shadow-xs space-y-4">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2">
               <BookOpen className="w-5 h-5 text-accent" />
-              <h1 className="text-xl md:text-2xl font-extrabold text-text">
+              <h1 className="text-xl sm:text-2xl font-extrabold text-text tracking-tight">
                 Al-Qur'an 30 Juz & 114 Surat
               </h1>
             </div>
-            <p className="text-xs text-text-muted mt-1">
-              Jelajahi seluruh surat Al-Qur'an lengkap dengan pembagian juz & audio murottal
+            <p className="text-xs sm:text-sm text-text-muted mt-1">
+              Jelajahi seluruh surat Al-Qur'an lengkap dengan teks Arab resmi, arti, pembagian juz & audio murottal
             </p>
           </div>
 
           {/* Mode Tabs: Surat vs Juz */}
-          <div className="flex items-center gap-1.5 self-start sm:self-auto bg-primary-soft/50 p-1 rounded-2xl border border-border">
+          <div className="flex items-center gap-1 self-start md:self-auto bg-primary-soft/60 p-1.5 rounded-2xl border border-border shrink-0">
             <button
               onClick={() => setViewMode('surah')}
-              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer ${
+              className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold transition cursor-pointer ${
                 viewMode === 'surah'
                   ? 'bg-primary-deep text-white shadow-xs'
                   : 'text-text-muted hover:text-text'
               }`}
             >
               <BookOpen className="w-3.5 h-3.5" />
-              <span>Surat (114)</span>
+              <span>114 Surat</span>
             </button>
             <button
               onClick={() => setViewMode('juz')}
-              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer ${
+              className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold transition cursor-pointer ${
                 viewMode === 'juz'
                   ? 'bg-primary-deep text-white shadow-xs'
                   : 'text-text-muted hover:text-text'
               }`}
             >
               <Layers className="w-3.5 h-3.5" />
-              <span>Juz (1-30)</span>
+              <span>30 Juz</span>
             </button>
           </div>
         </div>
 
-        {/* Filter Tabs for Surah Mode */}
-        {viewMode === 'surah' && (
-          <div className="flex items-center gap-2 pt-1">
-            <span className="text-[11px] font-semibold text-text-muted">Filter:</span>
-            <div className="flex items-center gap-1.5">
+        {/* Search Bar & Filter Row */}
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-1">
+          {/* Search Bar */}
+          <div className="relative flex-1">
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder={
+                viewMode === 'surah'
+                  ? "Cari nama surat (mis. Yasin, Al-Mulk, Al-Baqarah) atau nomor..."
+                  : "Cari nomor juz (mis. Juz 30, Juz 1) atau nama surat..."
+              }
+              className="w-full pl-10 pr-12 py-3 rounded-2xl border border-border bg-background text-sm text-text focus:outline-none focus:ring-2 focus:ring-primary-deep/40 transition placeholder:text-text-muted"
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery('')}
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-semibold text-text-muted hover:text-text cursor-pointer p-1"
+              >
+                Hapus
+              </button>
+            )}
+          </div>
+
+          {/* Filter Chips for Surah Mode */}
+          {viewMode === 'surah' && (
+            <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 shrink-0">
+              <span className="text-[11px] font-semibold text-text-muted uppercase tracking-wider mr-1 hidden lg:inline">
+                Tempat Turun:
+              </span>
               <button
                 onClick={() => setFilterType('all')}
-                className={`px-3 py-1 rounded-lg text-xs font-semibold transition cursor-pointer ${
+                className={`px-3.5 py-2 rounded-xl text-xs font-semibold transition cursor-pointer whitespace-nowrap ${
                   filterType === 'all'
                     ? 'bg-primary-soft text-primary-deep font-bold border border-primary-deep/30'
                     : 'text-text-muted hover:text-text border border-border bg-surface'
                 }`}
               >
-                Semua
+                Semua Surat
               </button>
               <button
                 onClick={() => setFilterType('mekah')}
-                className={`px-3 py-1 rounded-lg text-xs font-semibold transition cursor-pointer ${
+                className={`px-3.5 py-2 rounded-xl text-xs font-semibold transition cursor-pointer whitespace-nowrap ${
                   filterType === 'mekah'
                     ? 'bg-primary-soft text-primary-deep font-bold border border-primary-deep/30'
                     : 'text-text-muted hover:text-text border border-border bg-surface'
@@ -133,7 +160,7 @@ export const SurahListPage: React.FC<SurahListPageProps> = ({
               </button>
               <button
                 onClick={() => setFilterType('madinah')}
-                className={`px-3 py-1 rounded-lg text-xs font-semibold transition cursor-pointer ${
+                className={`px-3.5 py-2 rounded-xl text-xs font-semibold transition cursor-pointer whitespace-nowrap ${
                   filterType === 'madinah'
                     ? 'bg-primary-soft text-primary-deep font-bold border border-primary-deep/30'
                     : 'text-text-muted hover:text-text border border-border bg-surface'
@@ -142,30 +169,6 @@ export const SurahListPage: React.FC<SurahListPageProps> = ({
                 Madaniyyah
               </button>
             </div>
-          </div>
-        )}
-
-        {/* Search Bar */}
-        <div className="relative">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder={
-              viewMode === 'surah'
-                ? "Cari nama surat (mis. Yasin, Al-Mulk, Al-Baqarah) atau nomor..."
-                : "Cari nomor juz (mis. Juz 30, Juz 1) atau nama surat awal..."
-            }
-            className="w-full pl-10 pr-4 py-3 rounded-2xl border border-border bg-background text-sm text-text focus:outline-none focus:ring-2 focus:ring-primary-deep/40 transition placeholder:text-text-muted"
-          />
-          {searchQuery && (
-            <button
-              onClick={() => setSearchQuery('')}
-              className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs text-text-muted hover:text-text cursor-pointer"
-            >
-              Hapus
-            </button>
           )}
         </div>
       </div>
@@ -213,7 +216,7 @@ export const SurahListPage: React.FC<SurahListPageProps> = ({
       {!loading && viewMode === 'surah' && (
         <>
           {filteredSurahs.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
               {filteredSurahs.map((surah) => (
                 <SurahCard
                   key={surah.nomor}
@@ -243,7 +246,7 @@ export const SurahListPage: React.FC<SurahListPageProps> = ({
 
       {/* VIEW MODE 2: 30 JUZ */}
       {!loading && viewMode === 'juz' && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
           {filteredJuz.map((juz) => (
             <div
               key={juz.juzNumber}

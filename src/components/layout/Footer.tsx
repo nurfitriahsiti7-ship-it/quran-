@@ -30,12 +30,12 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateTab }) => {
 
   return (
     <footer className="w-full bg-surface/80 border-t border-border mt-10 transition-colors">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-10 space-y-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">
         {/* Header Kemitraan */}
         <div className="text-center space-y-1">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-soft/60 text-primary-deep text-xs font-semibold">
+          <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-accent-deep">
             <HeartHandshake className="w-3.5 h-3.5 text-accent" />
-            <span>Kolaborasi & Kemitraan</span>
+            <span>Kolaborasi & Kemitraan Resmi</span>
           </div>
           <p className="text-xs text-text-muted">
             Dipersembahkan bersama untuk kemudahan membaca & memahami Al-Qur'an
@@ -91,11 +91,11 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateTab }) => {
               />
             </div>
             <div>
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center gap-2">
                 <span className="font-extrabold text-sm text-text tracking-tight">
                   {APP_CONFIG.appName}
                 </span>
-                <span className="text-[10px] px-1.5 py-0.2 rounded-md bg-accent-light/30 text-accent-deep font-bold border border-accent/20">
+                <span className="text-[11px] font-bold text-accent-deep uppercase tracking-wider">
                   Digital
                 </span>
               </div>

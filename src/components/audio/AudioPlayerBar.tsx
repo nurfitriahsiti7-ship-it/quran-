@@ -86,7 +86,7 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({ onJumpToAyah, on
   };
 
   return (
-    <div className="fixed bottom-16 md:bottom-5 left-3 right-3 md:left-auto md:right-6 md:w-96 z-40 bg-surface/95 backdrop-blur-md border border-border rounded-2xl shadow-xl p-3.5 transition-all">
+    <div className="fixed bottom-20 md:bottom-6 left-3 right-3 md:left-auto md:right-8 md:w-96 z-40 bg-surface/95 backdrop-blur-md border border-border rounded-2xl shadow-2xl p-3.5 transition-all max-w-md mx-auto md:max-w-none">
       {/* Top track info & close */}
       <div className="flex items-center justify-between gap-2 mb-2">
         <div className="flex items-center gap-2 overflow-hidden">

@@ -84,7 +84,7 @@ export const AyahCard: React.FC<AyahCardProps> = ({
       }`}
     >
       {/* Top Toolbar: Ayah Number & Quick Actions */}
-      <div className="flex flex-wrap items-center justify-between gap-3 pb-3.5 border-b border-divider/60">
+      <div className="flex flex-wrap items-center justify-between gap-2.5 pb-3.5 border-b border-divider/60">
         {/* Left: Ayah info tag */}
         <div className="flex items-center gap-2.5">
           {/* Ornate Islamic Ayah Badge */}
@@ -100,15 +100,15 @@ export const AyahCard: React.FC<AyahCardProps> = ({
               QS. {surahName} : {ayah.nomorAyat}
             </span>
             {hasNote && (
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-accent-light/30 text-accent-deep border border-accent/20">
-                Ada Catatan
+              <span className="text-[10px] font-bold text-accent-deep uppercase tracking-wider">
+                • Catatan
               </span>
             )}
           </div>
         </div>
 
         {/* Right: Action button group */}
-        <div className="flex items-center gap-1 bg-surface/80 p-1 rounded-xl border border-border/60 shadow-2xs">
+        <div className="flex items-center gap-1 bg-surface/80 p-1 rounded-xl border border-border/60 shadow-2xs overflow-x-auto max-w-full">
           {/* Tilawah Daily Target Tick */}
           <button
             onClick={onMarkRead}

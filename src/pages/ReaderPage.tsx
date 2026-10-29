@@ -303,27 +303,29 @@ export const ReaderPage: React.FC<ReaderPageProps> = ({
   return (
     <div className="space-y-6 pb-28 animate-in fade-in duration-300">
       {/* Top Navigation & Toolbar Bar */}
-      <div className="sticky top-16 z-30 bg-surface/95 backdrop-blur-md border border-border/80 rounded-2xl p-3 sm:p-3.5 shadow-sm flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-2">
+      <div className="sticky top-16 z-30 bg-surface/95 backdrop-blur-md border border-border/80 rounded-2xl p-2.5 sm:p-3.5 shadow-sm flex items-center justify-between gap-2 sm:gap-3 transition-all">
+        {/* Left: Back button & Surah Name */}
+        <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
           <button
             onClick={onBackToList}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-border/70 text-xs font-bold text-text hover:bg-primary-soft transition cursor-pointer"
+            className="flex items-center gap-1 px-2.5 sm:px-3 py-1.5 rounded-xl border border-border/70 text-xs font-bold text-text hover:bg-primary-soft transition cursor-pointer shrink-0"
+            title="Kembali ke Daftar Surat"
           >
             <ChevronLeft className="w-4 h-4" />
-            <span className="hidden sm:inline">Daftar Surat</span>
+            <span className="hidden sm:inline">Daftar</span>
           </button>
 
-          {/* Surah dropdown selector */}
-          <div className="flex items-center gap-1.5 text-xs font-extrabold text-text px-2 py-1 rounded-xl bg-primary-soft/40 border border-border/40">
-            <span className="text-accent-deep">#{surah.nomor}</span>
-            <span>•</span>
-            <span className="text-primary-deep">{surah.namaLatin}</span>
-            <span className="font-quran text-sm text-text ml-1" dir="rtl">{surah.nama}</span>
+          {/* Surah title tag */}
+          <div className="flex items-center gap-1 sm:gap-1.5 text-xs font-extrabold text-text px-2 py-1.5 rounded-xl bg-primary-soft/40 border border-border/40 truncate">
+            <span className="text-accent-deep shrink-0">#{surah.nomor}</span>
+            <span className="text-border hidden sm:inline">•</span>
+            <span className="text-primary-deep truncate">{surah.namaLatin}</span>
+            <span className="font-quran text-sm text-text ml-1 hidden md:inline shrink-0" dir="rtl">{surah.nama}</span>
           </div>
         </div>
 
-        {/* Center / Right controls: AutoScroll, Typography, Ayah Jump */}
-        <div className="flex items-center gap-2">
+        {/* Right: AutoScroll, Typography, Ayah Jump */}
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
           {/* Auto Scroll Controls */}
           <AutoScrollControls
             isScrolling={isScrolling}
@@ -360,9 +362,9 @@ export const ReaderPage: React.FC<ReaderPageProps> = ({
                 if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
               }
             }}
-            className="px-2.5 py-1.5 rounded-xl border border-border bg-background text-xs font-bold text-text focus:outline-none focus:ring-1 focus:ring-primary-deep cursor-pointer"
+            className="w-24 sm:w-auto px-2 sm:px-2.5 py-1.5 rounded-xl border border-border bg-background text-xs font-bold text-text focus:outline-none focus:ring-1 focus:ring-primary-deep cursor-pointer truncate"
           >
-            <option value="">Lompat Ayat...</option>
+            <option value="">Ayat...</option>
             {surah.ayat.map((a) => (
               <option key={a.nomorAyat} value={a.nomorAyat}>
                 Ayat {a.nomorAyat}

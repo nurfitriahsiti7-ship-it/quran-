@@ -45,23 +45,38 @@ export const AutoScrollControls: React.FC<AutoScrollControlsProps> = ({
         </button>
       )}
 
-      {/* Speed pills */}
-      <div className="flex items-center gap-1 border-l border-divider pl-1.5 ml-1">
-        <Gauge className="w-3.5 h-3.5 text-text-muted hidden sm:block" />
-        {speeds.map((s) => (
-          <button
-            key={s}
-            onClick={() => onChangeSpeed(s)}
-            className={`w-6 h-6 rounded-lg text-[10px] font-bold flex items-center justify-center transition cursor-pointer ${
-              speed === s
-                ? 'bg-accent-deep text-white shadow-xs'
-                : 'text-text-muted hover:text-text hover:bg-primary-soft/50'
-            }`}
-            title={`Kecepatan ${s}x`}
-          >
-            {s}x
-          </button>
-        ))}
+      {/* Speed selector: single cycle button on mobile, full buttons on desktop */}
+      <div className="border-l border-divider pl-1.5 ml-1">
+        {/* Desktop: all speed options */}
+        <div className="hidden sm:flex items-center gap-1">
+          <Gauge className="w-3.5 h-3.5 text-text-muted" />
+          {speeds.map((s) => (
+            <button
+              key={s}
+              onClick={() => onChangeSpeed(s)}
+              className={`w-6 h-6 rounded-lg text-[10px] font-bold flex items-center justify-center transition cursor-pointer ${
+                speed === s
+                  ? 'bg-accent-deep text-white shadow-xs'
+                  : 'text-text-muted hover:text-text hover:bg-primary-soft/50'
+              }`}
+              title={`Kecepatan ${s}x`}
+            >
+              {s}x
+            </button>
+          ))}
+        </div>
+
+        {/* Mobile: tap to cycle speed */}
+        <button
+          onClick={() => {
+            const nextSpeed = (speed % 4) + 1;
+            onChangeSpeed(nextSpeed);
+          }}
+          className="sm:hidden px-1.5 py-0.5 rounded-lg text-[10px] font-bold font-mono bg-primary-soft text-primary-deep"
+          title="Ubah kecepatan auto-scroll"
+        >
+          {speed}x
+        </button>
       </div>
     </div>
   );

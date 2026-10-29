@@ -112,7 +112,7 @@ export default function App() {
       />
 
       {/* Main Page Body */}
-      <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 pt-5 pb-24 md:pb-16">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-4 sm:pt-6 pb-36 md:pb-20">
         {activeTab === 'home' && (
           <HomePage
             onOpenSurah={handleOpenSurah}
