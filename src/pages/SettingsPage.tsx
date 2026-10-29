@@ -16,7 +16,6 @@ import { APP_CONFIG } from '../config/appConfig';
 import {
   deriveThemeFromPrimary,
   applyThemeToDocument,
-  ThemePalette,
 } from '../styles/themeTokens';
 
 interface SettingsPageProps {
@@ -33,9 +32,6 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
   const [currentColor, setCurrentColor] = useState(
     settings.customPrimaryColor || APP_CONFIG.primaryColor
   );
-  const [currentPalette, setCurrentPalette] = useState<ThemePalette>(() =>
-    deriveThemeFromPrimary(settings.customPrimaryColor || APP_CONFIG.primaryColor)
-  );
 
   const presetThemes = [
     { name: 'Soft Rose & Gold (Medali Default)', hex: '#F3C0BC', desc: 'Sesuai analisis gambar referensi medali' },
@@ -48,7 +44,6 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
   const handleApplyColor = (colorHex: string) => {
     setCurrentColor(colorHex);
     const newPal = deriveThemeFromPrimary(colorHex);
-    setCurrentPalette(newPal);
     applyThemeToDocument(newPal);
     onThemeColorChange(colorHex);
     onUpdateSettings({ ...settings, customPrimaryColor: colorHex });
@@ -173,56 +168,6 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
               />
             </label>
             <span className="text-xs font-mono font-bold text-primary-deep">{currentColor}</span>
-          </div>
-        </div>
-
-        {/* 10-Item Detailed Color Tokens Table */}
-        <div className="space-y-2 pt-2">
-          <label className="text-xs font-bold text-text block uppercase tracking-wider">
-            Tabel 10 Token Warna Terpusat (Aktif):
-          </label>
-          <div className="overflow-x-auto rounded-2xl border border-border">
-            <table className="w-full text-left text-xs">
-              <thead className="bg-primary-soft/50 border-b border-border text-text font-bold">
-                <tr>
-                  <th className="p-3">Warna</th>
-                  <th className="p-3">Nama Token</th>
-                  <th className="p-3">HEX & RGB</th>
-                  <th className="p-3">Peran dalam Desain</th>
-                  <th className="p-3">Proporsi</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-border/60 text-text-muted">
-                {[
-                  { key: 'primary', label: '1. Primary Color', token: currentPalette.primary },
-                  { key: 'secondary', label: '2. Secondary Color', token: currentPalette.secondary },
-                  { key: 'accent', label: '3. Accent Color', token: currentPalette.accent },
-                  { key: 'background', label: '4. Background Color', token: currentPalette.background },
-                  { key: 'surface', label: '5. Surface Color', token: currentPalette.surface },
-                  { key: 'text', label: '6. Text Color', token: currentPalette.text },
-                  { key: 'textMuted', label: '7. Muted Text Color', token: currentPalette.textMuted },
-                  { key: 'border', label: '8. Border & Divider', token: currentPalette.border },
-                  { key: 'highlight', label: '9. Highlight Color', token: currentPalette.highlight },
-                  { key: 'shadow', label: '10. Shadow Color', token: currentPalette.shadow },
-                ].map((row) => (
-                  <tr key={row.key} className="hover:bg-primary-soft/20">
-                    <td className="p-3">
-                      <span
-                        className="inline-block w-5 h-5 rounded-md border border-black/10 shadow-xs align-middle"
-                        style={{ backgroundColor: row.token.hex }}
-                      />
-                    </td>
-                    <td className="p-3 font-semibold text-text">{row.label}</td>
-                    <td className="p-3 font-mono text-[11px]">
-                      <span className="font-bold text-text block">{row.token.hex}</span>
-                      <span className="text-[10px] text-text-muted">rgb({row.token.rgb})</span>
-                    </td>
-                    <td className="p-3 text-[11px] leading-relaxed">{row.token.role}</td>
-                    <td className="p-3 font-bold text-accent-deep">{row.token.proportion}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
           </div>
         </div>
       </section>

@@ -77,37 +77,50 @@ export const AyahCard: React.FC<AyahCardProps> = ({
   return (
     <article
       id={`ayah-${ayah.nomorAyat}`}
-      className={`relative bg-surface border rounded-2xl p-5 md:p-6 transition-all duration-300 ${
+      className={`relative bg-surface border rounded-3xl p-5 md:p-7 transition-all duration-300 shadow-2xs ${
         isPlayingAudio
-          ? 'border-accent ring-2 ring-accent/30 bg-primary-soft/20 shadow-md'
-          : 'border-border hover:border-primary/50'
+          ? 'border-accent ring-2 ring-accent/30 bg-primary-soft/15 shadow-md'
+          : 'border-border/80 hover:border-primary-deep/40'
       }`}
     >
       {/* Top Toolbar: Ayah Number & Quick Actions */}
-      <div className="flex items-center justify-between gap-3 pb-3 border-b border-divider/60">
+      <div className="flex flex-wrap items-center justify-between gap-3 pb-3.5 border-b border-divider/60">
+        {/* Left: Ayah info tag */}
         <div className="flex items-center gap-2.5">
-          {/* Ayah number badge */}
-          <div className="relative w-8 h-8 rounded-full bg-primary-soft flex items-center justify-center border border-border">
-            <span className="text-xs font-bold text-accent-deep">{ayah.nomorAyat}</span>
+          {/* Ornate Islamic Ayah Badge */}
+          <div className="relative w-8 h-8 flex items-center justify-center shrink-0">
+            <div className="absolute inset-0 rotate-45 rounded-md border border-accent/40 bg-primary-soft/60" />
+            <span className="relative z-10 text-xs font-black text-accent-deep">
+              {ayah.nomorAyat}
+            </span>
           </div>
-          <span className="text-xs font-medium text-text-muted">
-            {surahName} : {ayah.nomorAyat}
-          </span>
+
+          <div className="flex items-center gap-1.5">
+            <span className="text-xs font-bold text-text">
+              QS. {surahName} : {ayah.nomorAyat}
+            </span>
+            {hasNote && (
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-accent-light/30 text-accent-deep border border-accent/20">
+                Ada Catatan
+              </span>
+            )}
+          </div>
         </div>
 
-        <div className="flex items-center gap-1">
+        {/* Right: Action button group */}
+        <div className="flex items-center gap-1 bg-surface/80 p-1 rounded-xl border border-border/60 shadow-2xs">
           {/* Tilawah Daily Target Tick */}
           <button
             onClick={onMarkRead}
             className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
               isReadToday
-                ? 'text-success bg-success/10 font-medium'
+                ? 'text-success bg-success/15 font-bold'
                 : 'text-text-muted hover:text-success hover:bg-success/10'
             }`}
             title={isReadToday ? 'Sudah dibaca hari ini' : 'Tandai sudah dibaca hari ini'}
             aria-label="Tandai tilawah hari ini"
           >
-            <CheckCircle2 className={`w-4 h-4 ${isReadToday ? 'fill-success/20' : ''}`} />
+            <CheckCircle2 className={`w-4 h-4 ${isReadToday ? 'fill-success/20 text-success' : ''}`} />
           </button>
 
           {/* Audio per ayah */}
@@ -115,7 +128,7 @@ export const AyahCard: React.FC<AyahCardProps> = ({
             onClick={onPlayAyah}
             className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
               isPlayingAudio
-                ? 'text-white bg-primary-deep'
+                ? 'text-white bg-primary-deep shadow-xs'
                 : 'text-text-muted hover:text-primary-deep hover:bg-primary-soft'
             }`}
             title={isPlayingAudio ? 'Jeda Audio Ayat' : 'Putar Audio Ayat'}
@@ -147,7 +160,7 @@ export const AyahCard: React.FC<AyahCardProps> = ({
           >
             <FileText className="w-4 h-4" />
             {hasNote && (
-              <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-accent" />
+              <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-accent animate-pulse" />
             )}
           </button>
 
@@ -156,7 +169,7 @@ export const AyahCard: React.FC<AyahCardProps> = ({
             onClick={onToggleBookmark}
             className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
               isBookmarked
-                ? 'text-accent fill-accent bg-accent-light/20'
+                ? 'text-accent fill-accent bg-accent-light/25 font-bold'
                 : 'text-text-muted hover:text-accent hover:bg-primary-soft'
             }`}
             title={isBookmarked ? 'Hapus dari Bookmark' : 'Simpan ke Bookmark'}
@@ -188,18 +201,19 @@ export const AyahCard: React.FC<AyahCardProps> = ({
       </div>
 
       {/* Arabic Verse Text */}
-      <div className="py-5">
+      <div className="py-6">
         <p
           className="font-quran text-right text-text select-text"
           style={{
             fontSize: `${settings.arabicFontSize}px`,
-            lineHeight: 2.4,
+            lineHeight: 2.5,
           }}
           dir="rtl"
           lang="ar"
         >
           {ayah.teksArab}
-          <span className="inline-flex items-center justify-center w-8 h-8 mx-2 text-xs font-sans text-accent font-semibold border border-accent/40 rounded-full align-middle select-none bg-primary-soft/40">
+          {/* Islamic Ayah End Ornament */}
+          <span className="inline-flex items-center justify-center w-8 h-8 mx-2 text-xs font-sans text-accent font-black border border-accent/50 rounded-full align-middle select-none bg-primary-soft/50 shadow-2xs">
             {ayah.nomorAyat}
           </span>
         </p>
@@ -207,7 +221,7 @@ export const AyahCard: React.FC<AyahCardProps> = ({
 
       {/* Latin Transliteration */}
       {settings.showTransliteration && ayah.teksLatin && (
-        <div className="pt-2 text-xs md:text-sm text-accent-deep/90 italic font-medium leading-relaxed">
+        <div className="p-3 rounded-2xl bg-primary-soft/25 border border-border/50 text-xs md:text-sm text-accent-deep/95 italic font-medium leading-relaxed">
           {ayah.teksLatin}
         </div>
       )}
@@ -215,7 +229,7 @@ export const AyahCard: React.FC<AyahCardProps> = ({
       {/* Indonesian Translation */}
       {settings.showTranslation && (
         <div
-          className="pt-2.5 text-text leading-relaxed border-t border-divider/40 mt-3"
+          className="pt-3 text-text leading-relaxed font-normal"
           style={{ fontSize: `${settings.translationFontSize}px` }}
         >
           {ayah.teksIndonesia}

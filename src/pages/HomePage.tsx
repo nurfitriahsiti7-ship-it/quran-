@@ -10,6 +10,9 @@ import {
   Play,
   HeartHandshake,
   Flame,
+  Calendar,
+  Layers,
+  Quote,
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { APP_CONFIG } from '../config/appConfig';
@@ -58,59 +61,77 @@ export const HomePage: React.FC<HomePageProps> = ({
   };
 
   const quickSurahs = [
-    { number: 1, name: 'Al-Fatihah', arabic: 'الفاتحة', desc: 'Pembukaan' },
-    { number: 18, name: 'Al-Kahf', arabic: 'الكهف', desc: 'Gua' },
-    { number: 36, name: 'Yasin', arabic: 'يس', desc: 'Jantung Al-Qur\'an' },
-    { number: 55, name: 'Ar-Rahman', arabic: 'الرحمن', desc: 'Yang Maha Pemurah' },
-    { number: 56, name: 'Al-Waqi\'ah', arabic: 'الواقعة', desc: 'Hari Kiamat' },
-    { number: 67, name: 'Al-Mulk', arabic: 'الملك', desc: 'Kerajaan' },
+    { number: 1, name: 'Al-Fatihah', arabic: 'الفاتحة', desc: 'Pembukaan', verses: 7 },
+    { number: 18, name: 'Al-Kahf', arabic: 'الكهف', desc: 'Gua', verses: 110 },
+    { number: 36, name: 'Yasin', arabic: 'يس', desc: 'Jantung Al-Qur\'an', verses: 83 },
+    { number: 55, name: 'Ar-Rahman', arabic: 'الرحمن', desc: 'Maha Pemurah', verses: 78 },
+    { number: 56, name: 'Al-Waqi\'ah', arabic: 'الواقعة', desc: 'Hari Kiamat', verses: 96 },
+    { number: 67, name: 'Al-Mulk', arabic: 'الملك', desc: 'Kerajaan', verses: 30 },
   ];
+
+  // Daily featured verse
+  const featuredAyah = {
+    surahNumber: 94,
+    surahName: 'Asy-Syarh',
+    ayahNumber: 6,
+    teksArab: 'إِنَّ مَعَ الْعُسْرِ يُسْرًا',
+    teksIndonesia: 'Sesungguhnya bersama kesulitan ada kemudahan.',
+    reflection: 'Pengingat bahwa dalam setiap ujian kehidupan, pertolongan dan kemudahan dari Allah senantiasa menyertai kita.',
+  };
 
   return (
     <div className="space-y-6 pb-12 animate-in fade-in duration-300">
-      {/* Hero Banner with Medallion Art */}
-      <section className="relative overflow-hidden rounded-3xl bg-surface border border-border p-6 md:p-8 shadow-sm">
-        {/* Soft decorative background circles */}
-        <div className="absolute -right-16 -top-16 w-64 h-64 rounded-full bg-primary-soft/40 blur-2xl pointer-events-none" />
-        <div className="absolute right-32 -bottom-16 w-56 h-56 rounded-full bg-accent-light/20 blur-xl pointer-events-none" />
+      {/* Hero Banner with Islamic Aura */}
+      <section className="relative overflow-hidden rounded-3xl bg-surface border border-border/80 p-6 sm:p-8 md:p-10 shadow-sm">
+        {/* Soft decorative background glows */}
+        <div className="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-primary-soft/50 blur-3xl pointer-events-none" />
+        <div className="absolute right-40 -bottom-20 w-72 h-72 rounded-full bg-accent-light/20 blur-2xl pointer-events-none" />
+        <div className="absolute left-10 -bottom-24 w-60 h-60 rounded-full bg-primary/10 blur-2xl pointer-events-none" />
 
-        <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="space-y-3 text-center md:text-left">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-soft text-primary-deep text-xs font-semibold border border-primary/20">
-              <Sparkles className="w-3.5 h-3.5 text-accent" />
-              <span>Ketenangan Hati Bersama Al-Qur'an</span>
+        <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+          <div className="space-y-4 text-center md:text-left max-w-xl">
+            {/* Top pill with calendar info */}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary-soft/70 text-primary-deep text-xs font-semibold border border-primary/20 shadow-2xs">
+              <Calendar className="w-3.5 h-3.5 text-accent" />
+              <span>Ketenangan Hati & Tilawah Setiap Hari</span>
             </div>
 
-            <h1 className="text-2xl md:text-4xl font-extrabold text-text tracking-tight">
-              Assalāmu’alaikum
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-text tracking-tight leading-tight">
+              Assalāmu’alaikum,{' '}
+              <span className="text-primary-deep block sm:inline">Sahabat Qur'an</span>
             </h1>
 
-            <p className="text-sm md:text-base text-text-muted max-w-lg leading-relaxed">
-              Jadikan setiap hari lebih bermakna dengan membaca, merenungi, dan mengamalkan kalam Ilahi bersama <span className="font-semibold text-text">{APP_CONFIG.appName}</span>.
+            <p className="text-sm md:text-base text-text-muted leading-relaxed">
+              Jadikan setiap hari lebih bermakna dengan membaca, merenungi, dan mengamalkan kalam Ilahi bersama <strong className="text-text">{APP_CONFIG.appName}</strong>.
             </p>
 
+            {/* Quick Action Buttons */}
             <div className="pt-2 flex flex-wrap items-center justify-center md:justify-start gap-3">
               <button
                 onClick={() => onNavigateTab('surah-list')}
-                className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary-deep text-white font-semibold text-xs md:text-sm shadow-md hover:brightness-105 active:scale-95 transition-all cursor-pointer"
+                className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary-deep text-white font-bold text-xs sm:text-sm shadow-md hover:brightness-105 active:scale-95 transition-all cursor-pointer"
               >
                 <BookOpen className="w-4 h-4" />
-                <span>Buka 114 Surat</span>
+                <span>Buka 114 Surat & 30 Juz</span>
               </button>
 
               <button
                 onClick={() => onNavigateTab('search')}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-border bg-surface text-text hover:bg-primary-soft/60 font-semibold text-xs md:text-sm transition-all cursor-pointer"
+                className="flex items-center gap-2 px-4.5 py-2.5 rounded-xl border border-border bg-surface text-text hover:bg-primary-soft/60 font-semibold text-xs sm:text-sm transition-all cursor-pointer shadow-2xs"
               >
                 <Search className="w-4 h-4 text-accent" />
-                <span>Cari Ayat / Terjemahan</span>
+                <span>Pencarian Kata / Ayat</span>
               </button>
             </div>
           </div>
 
-          {/* Medallion Focal Artwork */}
-          <div className="relative shrink-0 w-36 h-36 md:w-48 md:h-48 group">
-            <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-accent to-primary opacity-20 blur-md group-hover:opacity-40 transition-opacity" />
+          {/* Focal Medallion Artwork with Animated Aura */}
+          <div className="relative shrink-0 w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 group flex items-center justify-center">
+            {/* Concentric rings */}
+            <div className="absolute inset-0 rounded-full border border-accent/20 scale-110 pointer-events-none" />
+            <div className="absolute inset-0 rounded-full border border-dashed border-primary-deep/20 scale-120 animate-spin-slow pointer-events-none" />
+            <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-accent/20 to-primary/30 blur-md group-hover:scale-105 transition-transform" />
+
             <img
               src="/assets/aistudio/Medali_Bundar_Kaligrafi_Al-Qur_an_425f345a.png"
               alt="Medali Kaligrafi Al-Qur'an"
@@ -123,14 +144,14 @@ export const HomePage: React.FC<HomePageProps> = ({
       {/* Two-Column Grid: Last Read & Daily Target */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {/* Card: Lanjut Membaca (Last Read) */}
-        <div className="bg-surface border border-border rounded-2xl p-5 shadow-xs flex flex-col justify-between space-y-4">
+        <div className="bg-surface border border-border/80 rounded-3xl p-6 shadow-2xs flex flex-col justify-between space-y-4 hover:border-primary-deep/40 transition-colors">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 text-xs font-bold text-accent-deep uppercase tracking-wider">
-              <Compass className="w-4 h-4" />
+              <Compass className="w-4 h-4 text-accent" />
               <span>Terakhir Dibaca</span>
             </div>
             {lastRead && (
-              <span className="text-[10px] text-text-muted">
+              <span className="text-[11px] text-text-muted px-2 py-0.5 rounded-md bg-primary-soft/40">
                 {new Date(lastRead.updatedAt).toLocaleDateString('id-ID', {
                   day: 'numeric',
                   month: 'short',
@@ -142,37 +163,47 @@ export const HomePage: React.FC<HomePageProps> = ({
           </div>
 
           {lastRead ? (
-            <div className="space-y-2">
+            <div className="space-y-3">
               <div className="flex items-baseline justify-between">
                 <div>
-                  <h3 className="font-extrabold text-lg text-text">
+                  <h3 className="font-black text-xl text-text">
                     {lastRead.surahName}
                   </h3>
-                  <p className="text-xs text-text-muted">
-                    Ayat ke-{lastRead.ayahNumber} dari {lastRead.totalAyah} ayat
+                  <p className="text-xs text-text-muted mt-0.5">
+                    Ayat ke-<strong className="text-text">{lastRead.ayahNumber}</strong> dari {lastRead.totalAyah} ayat
                   </p>
                 </div>
-                <span className="text-xs font-bold px-2 py-1 rounded-lg bg-primary-soft text-primary-deep">
-                  Surat ke-{lastRead.surahNumber}
+                <span className="text-xs font-bold px-2.5 py-1 rounded-xl bg-primary-soft text-primary-deep border border-primary/20">
+                  Surat #{lastRead.surahNumber}
                 </span>
+              </div>
+
+              {/* Mini progress bar of the surah */}
+              <div className="w-full h-1.5 bg-primary-soft/60 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-accent transition-all duration-300 rounded-full"
+                  style={{
+                    width: `${Math.round((lastRead.ayahNumber / (lastRead.totalAyah || 1)) * 100)}%`,
+                  }}
+                />
               </div>
 
               <button
                 onClick={() => onOpenSurah(lastRead.surahNumber, lastRead.ayahNumber)}
-                className="w-full mt-2 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-primary-soft text-primary-deep hover:bg-primary-deep hover:text-white font-semibold text-xs transition-colors cursor-pointer"
+                className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-primary-soft text-primary-deep hover:bg-primary-deep hover:text-white font-bold text-xs transition-colors cursor-pointer shadow-2xs"
               >
-                <span>Lanjutkan Membaca</span>
+                <span>Lanjutkan Membaca Ayat Ini</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
           ) : (
-            <div className="py-4 text-center space-y-2">
+            <div className="py-4 text-center space-y-2.5">
               <p className="text-xs text-text-muted">
-                Belum ada riwayat bacaan. Mulai tilawah sekarang dari Surat Al-Fatihah!
+                Belum ada riwayat bacaan tersimpan. Mulai tilawah sekarang dari Surat Al-Fatihah!
               </p>
               <button
                 onClick={() => onOpenSurah(1, 1)}
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-primary-soft text-primary-deep text-xs font-semibold hover:bg-primary-deep hover:text-white transition cursor-pointer"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-primary-soft text-primary-deep text-xs font-bold hover:bg-primary-deep hover:text-white transition cursor-pointer shadow-2xs"
               >
                 <span>Mulai dari Al-Fatihah</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -182,7 +213,7 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
 
         {/* Card: Target Tilawah Harian */}
-        <div className="bg-surface border border-border rounded-2xl p-5 shadow-xs flex flex-col justify-between space-y-4">
+        <div className="bg-surface border border-border/80 rounded-3xl p-6 shadow-2xs flex flex-col justify-between space-y-4 hover:border-primary-deep/40 transition-colors">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 text-xs font-bold text-accent-deep uppercase tracking-wider">
               <Trophy className="w-4 h-4 text-accent" />
@@ -190,21 +221,21 @@ export const HomePage: React.FC<HomePageProps> = ({
             </div>
             <div className="flex items-center gap-2">
               <div
-                className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-700 text-[11px] font-bold"
+                className="flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-700 text-[11px] font-bold"
                 title={`${streak.streak} hari berturut-turut membaca Al-Qur'an`}
               >
                 <Flame className="w-3.5 h-3.5 text-amber-500 fill-amber-500 animate-pulse" />
                 <span>{streak.streak > 0 ? `${streak.streak} Hari Streak` : 'Streak Baru'}</span>
               </div>
-              <span className="text-xs font-extrabold text-text">
+              <span className="text-xs font-black text-text">
                 {dailyProgress.readAyahsCount} / {settings.dailyAyahTarget} Ayat
               </span>
             </div>
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-2.5">
             {/* Progress bar */}
-            <div className="w-full h-2.5 bg-primary-soft rounded-full overflow-hidden">
+            <div className="w-full h-3 bg-primary-soft rounded-full overflow-hidden p-0.5">
               <div
                 className="h-full bg-gradient-to-r from-accent to-primary-deep transition-all duration-500 rounded-full"
                 style={{ width: `${progressPercentage}%` }}
@@ -212,9 +243,9 @@ export const HomePage: React.FC<HomePageProps> = ({
             </div>
 
             <div className="flex items-center justify-between text-xs text-text-muted">
-              <span>{progressPercentage}% tercapai</span>
+              <span>{progressPercentage}% selesai</span>
               {progressPercentage >= 100 ? (
-                <span className="text-success font-semibold flex items-center gap-1">
+                <span className="text-success font-bold flex items-center gap-1">
                   <CheckCircle2 className="w-3.5 h-3.5" />
                   Alhamdulillah tercapai!
                 </span>
@@ -226,7 +257,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             {progressPercentage >= 100 && (
               <button
                 onClick={triggerConfetti}
-                className="w-full mt-2 py-2 rounded-xl bg-accent-light/30 text-accent-deep font-semibold text-xs border border-accent/30 hover:bg-accent-light/50 transition cursor-pointer flex items-center justify-center gap-1.5"
+                className="w-full mt-2 py-2 rounded-xl bg-accent-light/30 text-accent-deep font-bold text-xs border border-accent/30 hover:bg-accent-light/50 transition cursor-pointer flex items-center justify-center gap-1.5 shadow-2xs"
               >
                 <Sparkles className="w-3.5 h-3.5" />
                 <span>Rayakan Keberhasilan Tilawah 🎉</span>
@@ -235,23 +266,53 @@ export const HomePage: React.FC<HomePageProps> = ({
           </div>
 
           <p className="text-[11px] text-text-muted">
-            Tandai ikon centang pada setiap ayat di halaman pembaca untuk menambah progres tilawah harian Anda.
+            Tandai ikon centang pada setiap ayat di mushaf untuk mencatat progres tilawah harian Anda.
           </p>
         </div>
       </div>
 
-      {/* Quick Access to Recommended / Popular Surahs */}
-      <section className="space-y-3">
+      {/* Card: Ayat Hari Ini (Daily Quranic Inspiration) */}
+      <section className="bg-gradient-to-r from-primary-soft/40 via-surface to-accent-light/15 border border-border/80 rounded-3xl p-6 md:p-7 shadow-2xs space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-base font-bold text-text flex items-center gap-2">
+          <div className="flex items-center gap-2 text-xs font-bold text-accent-deep uppercase tracking-wider">
+            <Quote className="w-4 h-4 text-accent" />
+            <span>Ayat Pilihan Hari Ini</span>
+          </div>
+
+          <button
+            onClick={() => onOpenSurah(featuredAyah.surahNumber, featuredAyah.ayahNumber)}
+            className="flex items-center gap-1 text-xs font-bold text-primary-deep hover:underline cursor-pointer"
+          >
+            <span>QS. {featuredAyah.surahName}: {featuredAyah.ayahNumber}</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </button>
+        </div>
+
+        <div className="space-y-3">
+          <p className="font-quran text-right text-2xl md:text-3xl text-text font-bold leading-loose" dir="rtl">
+            {featuredAyah.teksArab}
+          </p>
+          <p className="text-xs md:text-sm text-text font-medium italic">
+            "{featuredAyah.teksIndonesia}"
+          </p>
+          <p className="text-[11px] text-text-muted leading-relaxed">
+            💡 {featuredAyah.reflection}
+          </p>
+        </div>
+      </section>
+
+      {/* Quick Access to Popular Surahs */}
+      <section className="space-y-3.5">
+        <div className="flex items-center justify-between">
+          <h2 className="text-sm md:text-base font-extrabold text-text flex items-center gap-2">
             <Sparkles className="w-4 h-4 text-accent" />
-            <span>Surat Pilihan & Paling Sering Dibaca</span>
+            <span>Surat Utama & Sering Dibaca</span>
           </h2>
           <button
             onClick={() => onNavigateTab('surah-list')}
-            className="text-xs font-semibold text-primary-deep hover:underline cursor-pointer"
+            className="text-xs font-bold text-primary-deep hover:underline cursor-pointer"
           >
-            Lihat Semua (114)
+            Lihat Semua (114 Surat)
           </button>
         </div>
 
@@ -260,23 +321,23 @@ export const HomePage: React.FC<HomePageProps> = ({
             <div
               key={qs.number}
               onClick={() => onOpenSurah(qs.number)}
-              className="group bg-surface border border-border rounded-xl p-3 hover:border-primary-deep/50 hover:shadow-xs hover:-translate-y-0.5 transition-all cursor-pointer flex flex-col justify-between"
+              className="group bg-surface border border-border/80 rounded-2xl p-3.5 hover:border-primary-deep/50 hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer flex flex-col justify-between"
             >
               <div className="flex items-center justify-between mb-2">
-                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-primary-soft text-accent-deep">
+                <span className="text-[10px] font-black px-1.5 py-0.5 rounded-md bg-primary-soft text-accent-deep">
                   #{qs.number}
                 </span>
-                <span className="font-quran text-sm font-semibold text-accent-deep group-hover:scale-105 transition-transform">
+                <span className="font-quran text-base font-bold text-accent-deep group-hover:scale-105 transition-transform" dir="rtl">
                   {qs.arabic}
                 </span>
               </div>
 
               <div>
-                <h4 className="font-bold text-xs text-text truncate group-hover:text-primary-deep transition-colors">
+                <h4 className="font-extrabold text-xs text-text truncate group-hover:text-primary-deep transition-colors">
                   {qs.name}
                 </h4>
                 <p className="text-[10px] text-text-muted truncate mt-0.5">
-                  {qs.desc}
+                  {qs.desc} • {qs.verses} Ayat
                 </p>
               </div>
             </div>
@@ -284,15 +345,15 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </section>
 
-      {/* Daily Spiritual Reflection / Quotes */}
-      <section className="bg-gradient-to-r from-primary-soft/50 via-surface to-accent-light/20 border border-border rounded-2xl p-5 md:p-6 shadow-xs flex items-start gap-4">
-        <div className="w-10 h-10 rounded-full bg-accent-light/30 flex items-center justify-center text-accent-deep shrink-0">
+      {/* Spiritual Encouragement Note */}
+      <section className="bg-surface border border-border/70 rounded-3xl p-5 md:p-6 shadow-2xs flex items-start gap-4">
+        <div className="w-10 h-10 rounded-2xl bg-accent-light/30 flex items-center justify-center text-accent-deep shrink-0">
           <HeartHandshake className="w-5 h-5" />
         </div>
         <div className="space-y-1">
-          <h4 className="font-bold text-sm text-text">Keutamaan Membaca Al-Qur'an</h4>
+          <h4 className="font-bold text-sm text-text">Keberkahan Membaca Al-Qur'an</h4>
           <p className="text-xs text-text-muted leading-relaxed">
-            “Sebaik-baik kalian adalah orang yang belajar Al-Qur'an dan mengajarkannya.” (HR. Bukhari no. 5027). Luangkan waktu sejenak setiap hari walau beberapa ayat, karena Al-Qur'an akan menjadi syafaat bagi pembacanya di hari kiamat.
+            “Sebaik-baik kalian adalah orang yang belajar Al-Qur'an dan mengajarkannya.” (HR. Bukhari no. 5027). Luangkan waktu setiap hari walau beberapa ayat bersama <strong>{APP_CONFIG.appName}</strong> untuk memelihara kebugaran rohani dan ketenangan jiwa.
           </p>
         </div>
       </section>

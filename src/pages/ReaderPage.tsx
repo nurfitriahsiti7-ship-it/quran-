@@ -303,21 +303,22 @@ export const ReaderPage: React.FC<ReaderPageProps> = ({
   return (
     <div className="space-y-6 pb-28 animate-in fade-in duration-300">
       {/* Top Navigation & Toolbar Bar */}
-      <div className="sticky top-16 z-30 bg-surface/95 backdrop-blur-md border border-border rounded-2xl p-3 shadow-xs flex flex-wrap items-center justify-between gap-3">
+      <div className="sticky top-16 z-30 bg-surface/95 backdrop-blur-md border border-border/80 rounded-2xl p-3 sm:p-3.5 shadow-sm flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2">
           <button
             onClick={onBackToList}
-            className="flex items-center gap-1 px-3 py-1.5 rounded-xl border border-border text-xs font-semibold text-text hover:bg-primary-soft transition cursor-pointer"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-border/70 text-xs font-bold text-text hover:bg-primary-soft transition cursor-pointer"
           >
             <ChevronLeft className="w-4 h-4" />
             <span className="hidden sm:inline">Daftar Surat</span>
           </button>
 
           {/* Surah dropdown selector */}
-          <div className="flex items-center gap-1 text-xs font-bold text-text">
-            <span>#{surah.nomor}</span>
-            <span className="hidden sm:inline">•</span>
+          <div className="flex items-center gap-1.5 text-xs font-extrabold text-text px-2 py-1 rounded-xl bg-primary-soft/40 border border-border/40">
+            <span className="text-accent-deep">#{surah.nomor}</span>
+            <span>•</span>
             <span className="text-primary-deep">{surah.namaLatin}</span>
+            <span className="font-quran text-sm text-text ml-1" dir="rtl">{surah.nama}</span>
           </div>
         </div>
 
@@ -340,7 +341,7 @@ export const ReaderPage: React.FC<ReaderPageProps> = ({
             onClick={() => setShowTypographyControls(!showTypographyControls)}
             className={`p-2 rounded-xl border transition cursor-pointer ${
               showTypographyControls
-                ? 'bg-primary-soft border-primary-deep text-primary-deep'
+                ? 'bg-primary-soft border-primary-deep text-primary-deep shadow-2xs'
                 : 'border-border text-text hover:bg-primary-soft'
             }`}
             title="Pengaturan Ukuran Font & Tampilan"
@@ -359,7 +360,7 @@ export const ReaderPage: React.FC<ReaderPageProps> = ({
                 if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
               }
             }}
-            className="px-2.5 py-1.5 rounded-xl border border-border bg-background text-xs font-semibold text-text focus:outline-none focus:ring-1 focus:ring-primary-deep cursor-pointer"
+            className="px-2.5 py-1.5 rounded-xl border border-border bg-background text-xs font-bold text-text focus:outline-none focus:ring-1 focus:ring-primary-deep cursor-pointer"
           >
             <option value="">Lompat Ayat...</option>
             {surah.ayat.map((a) => (
@@ -373,15 +374,15 @@ export const ReaderPage: React.FC<ReaderPageProps> = ({
 
       {/* Floating Typography Settings Drawer if opened */}
       {showTypographyControls && (
-        <div className="bg-surface border border-border rounded-2xl p-4 shadow-lg animate-in slide-in-from-top-2 duration-200 space-y-4">
+        <div className="bg-surface border border-border rounded-3xl p-5 shadow-xl animate-in slide-in-from-top-2 duration-200 space-y-4">
           <div className="flex items-center justify-between pb-2 border-b border-border">
             <h4 className="text-xs font-bold uppercase tracking-wider text-accent-deep flex items-center gap-1.5">
               <Type className="w-4 h-4" />
-              <span>Pengaturan Teks & Keterbacaan</span>
+              <span>Pengaturan Teks & Keterbacaan Mushaf</span>
             </h4>
             <button
               onClick={() => setShowTypographyControls(false)}
-              className="text-xs text-text-muted hover:text-text cursor-pointer"
+              className="text-xs font-semibold text-text-muted hover:text-text cursor-pointer"
             >
               Tutup
             </button>
@@ -391,7 +392,7 @@ export const ReaderPage: React.FC<ReaderPageProps> = ({
             {/* Arabic Font Size */}
             <div className="space-y-1.5">
               <span className="font-semibold text-text block">
-                Ukuran Teks Arab: {settings.arabicFontSize}px
+                Ukuran Teks Arab: <strong>{settings.arabicFontSize}px</strong>
               </span>
               <div className="flex items-center gap-2">
                 <button
@@ -436,7 +437,7 @@ export const ReaderPage: React.FC<ReaderPageProps> = ({
             {/* Translation Font Size */}
             <div className="space-y-1.5">
               <span className="font-semibold text-text block">
-                Ukuran Terjemahan: {settings.translationFontSize}px
+                Ukuran Terjemahan: <strong>{settings.translationFontSize}px</strong>
               </span>
               <div className="flex items-center gap-2">
                 <button
@@ -487,9 +488,9 @@ export const ReaderPage: React.FC<ReaderPageProps> = ({
                     showTransliteration: !settings.showTransliteration,
                   })
                 }
-                className={`px-3 py-1 rounded-lg font-bold transition cursor-pointer ${
+                className={`px-3 py-1 rounded-xl font-bold transition cursor-pointer ${
                   settings.showTransliteration
-                    ? 'bg-primary-deep text-white'
+                    ? 'bg-primary-deep text-white shadow-2xs'
                     : 'bg-primary-soft text-text-muted'
                 }`}
               >
@@ -507,9 +508,9 @@ export const ReaderPage: React.FC<ReaderPageProps> = ({
                     showTranslation: !settings.showTranslation,
                   })
                 }
-                className={`px-3 py-1 rounded-lg font-bold transition cursor-pointer ${
+                className={`px-3 py-1 rounded-xl font-bold transition cursor-pointer ${
                   settings.showTranslation
-                    ? 'bg-primary-deep text-white'
+                    ? 'bg-primary-deep text-white shadow-2xs'
                     : 'bg-primary-soft text-text-muted'
                 }`}
               >
@@ -521,54 +522,64 @@ export const ReaderPage: React.FC<ReaderPageProps> = ({
       )}
 
       {/* Surah Header Card Banner */}
-      <div className="relative overflow-hidden rounded-3xl bg-surface border border-border p-6 md:p-8 text-center space-y-3 shadow-xs">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-soft text-primary-deep text-xs font-semibold">
-          <span>Surat ke-{surah.nomor}</span>
-          <span>•</span>
-          <span>{surah.tempatTurun}</span>
-          <span>•</span>
-          <span>{surah.jumlahAyat} Ayat</span>
-        </div>
+      <div className="relative overflow-hidden rounded-3xl bg-surface border border-border/80 p-6 md:p-9 text-center space-y-4 shadow-sm">
+        {/* Soft decorative background circles */}
+        <div className="absolute -left-16 -top-16 w-48 h-48 rounded-full bg-primary-soft/40 blur-2xl pointer-events-none" />
+        <div className="absolute -right-16 -bottom-16 w-48 h-48 rounded-full bg-accent-light/25 blur-2xl pointer-events-none" />
 
-        <h1 className="text-2xl md:text-3xl font-extrabold text-text">
-          {surah.namaLatin}
-        </h1>
-        <p className="font-quran text-2xl md:text-3xl text-accent-deep font-bold" dir="rtl">
-          {surah.nama}
-        </p>
-        <p className="text-xs md:text-sm text-text-muted max-w-xl mx-auto">
-          "{surah.arti}"
-        </p>
+        <div className="relative z-10 space-y-3">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-primary-soft text-primary-deep text-xs font-bold border border-primary/20 shadow-2xs">
+            <span>Surat #{surah.nomor}</span>
+            <span>•</span>
+            <span>{surah.tempatTurun}</span>
+            <span>•</span>
+            <span>{surah.jumlahAyat} Ayat</span>
+          </div>
 
-        {/* Quick Action: Play Surah Audio */}
-        <div className="pt-2 flex items-center justify-center gap-3">
-          <button
-            onClick={handlePlayFullSurah}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-primary-deep text-white text-xs font-semibold shadow hover:brightness-105 active:scale-95 transition cursor-pointer"
-          >
-            <Volume2 className="w-4 h-4" />
-            <span>Dengarkan Surat Penuh</span>
-          </button>
-          <button
-            onClick={() => setActiveTafsirAyah(1)}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-xl border border-border bg-surface text-text hover:bg-primary-soft text-xs font-semibold transition cursor-pointer"
-          >
-            <BookOpen className="w-4 h-4 text-accent" />
-            <span>Tafsir Lengkap</span>
-          </button>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-text tracking-tight">
+            {surah.namaLatin}
+          </h1>
+
+          <p className="font-quran text-3xl sm:text-4xl text-accent-deep font-bold py-1" dir="rtl">
+            {surah.nama}
+          </p>
+
+          <p className="text-xs sm:text-sm text-text-muted max-w-xl mx-auto italic">
+            "{surah.arti}"
+          </p>
+
+          {/* Quick Actions */}
+          <div className="pt-3 flex flex-wrap items-center justify-center gap-3">
+            <button
+              onClick={handlePlayFullSurah}
+              className="flex items-center gap-2 px-4.5 py-2.5 rounded-xl bg-primary-deep text-white text-xs font-bold shadow hover:brightness-105 active:scale-95 transition cursor-pointer"
+            >
+              <Volume2 className="w-4 h-4" />
+              <span>Dengarkan Murottal Penuh</span>
+            </button>
+            <button
+              onClick={() => setActiveTafsirAyah(1)}
+              className="flex items-center gap-1.5 px-4.5 py-2.5 rounded-xl border border-border bg-surface text-text hover:bg-primary-soft text-xs font-bold transition cursor-pointer shadow-2xs"
+            >
+              <BookOpen className="w-4 h-4 text-accent" />
+              <span>Tafsir Kemenag RI</span>
+            </button>
+          </div>
         </div>
       </div>
 
       {/* Decorative Basmalah Banner */}
       {shouldShowBasmalahBanner && (
-        <div className="py-6 text-center select-none">
-          <div className="inline-block px-8 py-3 rounded-2xl bg-surface border border-accent/30 shadow-xs">
-            <p className="font-quran text-2xl md:text-3xl text-text font-bold" dir="rtl">
+        <div className="py-6 text-center select-none animate-in fade-in">
+          <div className="inline-block px-8 sm:px-12 py-4 rounded-3xl bg-surface border border-accent/40 shadow-xs relative overflow-hidden">
+            <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-transparent via-accent to-transparent" />
+            <p className="font-quran text-2xl sm:text-3xl text-text font-bold" dir="rtl">
               بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ
             </p>
-            <p className="text-[11px] text-text-muted mt-1 italic">
+            <p className="text-xs text-text-muted mt-1.5 italic font-medium">
               Dengan nama Allah Yang Maha Pengasih, Maha Penyayang
             </p>
+            <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-transparent via-accent to-transparent" />
           </div>
         </div>
       )}

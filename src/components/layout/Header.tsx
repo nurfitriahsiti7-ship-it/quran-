@@ -21,10 +21,9 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, onSelectTab }) => {
           <div className="relative w-10 h-10 rounded-full p-0.5 bg-gradient-to-tr from-accent to-primary flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform">
             <img
               src={APP_CONFIG.colorReference || '/icon.svg'}
-              alt="eQuran Medallion"
+              alt={`${APP_CONFIG.appName} Medallion`}
               className="w-full h-full object-cover rounded-full"
               onError={(e) => {
-                // fallback to svg if image fails
                 (e.target as HTMLElement).style.display = 'none';
               }}
             />
@@ -50,7 +49,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, onSelectTab }) => {
             onClick={() => onSelectTab('home')}
             className={`px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 transition-all cursor-pointer ${
               activeTab === 'home'
-                ? 'bg-primary-soft text-primary-deep shadow-xs'
+                ? 'bg-primary-soft text-primary-deep shadow-xs font-bold'
                 : 'text-text-muted hover:text-text hover:bg-primary-soft/40'
             }`}
           >
@@ -62,19 +61,19 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, onSelectTab }) => {
             onClick={() => onSelectTab('surah-list')}
             className={`px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 transition-all cursor-pointer ${
               activeTab === 'surah-list' || activeTab === 'reader'
-                ? 'bg-primary-soft text-primary-deep shadow-xs'
+                ? 'bg-primary-soft text-primary-deep shadow-xs font-bold'
                 : 'text-text-muted hover:text-text hover:bg-primary-soft/40'
             }`}
           >
             <Layers className="w-4 h-4" />
-            <span>114 Surat</span>
+            <span>114 Surat & 30 Juz</span>
           </button>
 
           <button
             onClick={() => onSelectTab('search')}
             className={`px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 transition-all cursor-pointer ${
               activeTab === 'search'
-                ? 'bg-primary-soft text-primary-deep shadow-xs'
+                ? 'bg-primary-soft text-primary-deep shadow-xs font-bold'
                 : 'text-text-muted hover:text-text hover:bg-primary-soft/40'
             }`}
           >
@@ -86,7 +85,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, onSelectTab }) => {
             onClick={() => onSelectTab('bookmarks')}
             className={`px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 transition-all cursor-pointer ${
               activeTab === 'bookmarks'
-                ? 'bg-primary-soft text-primary-deep shadow-xs'
+                ? 'bg-primary-soft text-primary-deep shadow-xs font-bold'
                 : 'text-text-muted hover:text-text hover:bg-primary-soft/40'
             }`}
           >
@@ -98,7 +97,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, onSelectTab }) => {
             onClick={() => onSelectTab('settings')}
             className={`px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 transition-all cursor-pointer ${
               activeTab === 'settings'
-                ? 'bg-primary-soft text-primary-deep shadow-xs'
+                ? 'bg-primary-soft text-primary-deep shadow-xs font-bold'
                 : 'text-text-muted hover:text-text hover:bg-primary-soft/40'
             }`}
           >
