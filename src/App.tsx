@@ -10,6 +10,7 @@ import { APP_CONFIG } from './config/appConfig';
 import { audioPlayer, AudioTrackInfo } from './services/audioService';
 
 import { Header } from './components/layout/Header';
+import { Footer } from './components/layout/Footer';
 import { BottomNav } from './components/layout/BottomNav';
 import { OfflineIndicator } from './components/layout/OfflineIndicator';
 import { AudioPlayerBar } from './components/audio/AudioPlayerBar';
@@ -186,6 +187,14 @@ export default function App() {
           />
         )}
       </main>
+
+      {/* Footer with Collaboration Logos */}
+      <Footer
+        onNavigateTab={(tab) => {
+          setActiveTab(tab);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
+      />
 
       {/* Floating Audio Mini Player */}
       <AudioPlayerBar
